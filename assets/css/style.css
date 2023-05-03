@@ -1,0 +1,124 @@
+/* ROOT */
+:root {
+    --red: #EE1A23;
+    --green: #869F76;
+}
+
+/* RESET */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Rubik Microbe', cursive;
+    color: white;
+}
+
+img {
+    max-width: 100%;
+} 
+
+/* GENERAL STYLE */
+body {
+    background-color: rgb(34, 28, 33);
+}
+
+/* FLEX & DISPLAY & POSITION STYLE */
+.dNone         {display: none;}
+.dBlock        {display: block;}
+.dFlex         {display: flex;}
+.fDirecCol     {flex-direction: column;}
+.justyCenter   {justify-content: center;}
+.alignCenter   {align-items: center;}
+.justySpaceBtw {justify-content: space-between;}
+.justySpaceEve {justify-content: space-evenly;}
+.fWrap         {flex-wrap: wrap;}
+.gap1em        {gap: 1em;}
+.pRelative     {position: relative;}
+.pAbsolute     {position: absolute;}
+.pSticky       {position: sticky;}
+
+/* EXTRA GENERIC STYLE */
+.cPointer      {cursor: pointer;}
+.textAlignCent {text-align: center;}
+.pad1em        {padding: 1em;}
+.border        {border: 1px solid var(--red);}
+.w100Perc      {width: 100%;}
+
+/* HEADER STYLE */
+header {
+    height: 70px;
+    background-color: var(--red);
+    margin-bottom: 2rem;
+    border-radius: 100px 0 100px 0;
+}
+
+header img {
+    height: 5rem;
+}
+
+/* MAIN STYLE */
+main {
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+#slider {
+    width: 60vw;
+    height: 70vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-right: transparent;
+    border-radius: 8px 0 0 8px;
+}
+
+.slide {
+    max-height: 95%;
+    min-width: 65%; 
+    object-fit: cover;
+}
+
+#imagesBar {
+    height: 70vh;
+    width: 30vh;
+    border-left: transparent;
+    overflow-y: scroll;
+    border-radius: 0 8px 8px 0;
+}
+
+#imagesBar > div:hover {
+    opacity: 1;
+}
+
+main button {
+    width: 100%;
+    height: 26px;
+    padding: .3em .8em;
+    color: var(--red);
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid black;
+    z-index: 1;
+    display: block;
+    letter-spacing: .3em;
+    position: sticky;
+}
+
+button > i {
+    color: var(--red);
+}
+
+#btnBack {
+    top: 0;
+}
+
+#btnNext {
+    top: calc(70vh - 26px);
+}
+
+.active {
+    opacity: 1;
+    border: 1px solid yellow;
+}
+
+.inactive {
+    opacity: 0.3;
+}
