@@ -2,11 +2,11 @@
 // Create HTML Elements
 const createElement = (tag, classes, content, id, src, alt) => {
     const element = document.createElement(tag);
-    id = id != "undefined" ? element.setAttribute("id", id) : null; //Alternative: if (id) { element.setAttribute("id", id)};
-    classes = classes != "undefined" ? element.setAttribute("class", classes) : null;
+    id = id != "undefined" ? element.setAttribute("id", id) : null; //if id isn't undefined
+    classes = classes != "undefined" ? element.setAttribute("class", classes) : null; //if classes isn't undefined
     element.innerText = (content);
-    src = src != "undefined" ? element.setAttribute("src", src) : null;
-    alt = alt != "undefined" ? element.setAttribute("alt", alt) : null;
+    src = src != "undefined" ? element.setAttribute("src", src) : null; //if src isn't undefined
+    alt = alt != "undefined" ? element.setAttribute("alt", alt) : null; //if alt isn't undefined
     return element;
 };
 
@@ -20,7 +20,8 @@ const doSomethingFunc = (what, selector, key, value) => document[what](selector)
 const sliderElement = document.getElementById('slider');
 const thumbBarElement = document.getElementById('thumbBar');
 const slide = document.getElementsByClassName('slide');
-const card = document.getElementsByClassName('thumbCard');
+const thumb = document.getElementsByClassName('thumbCard');
+const thumbClasses = ['w100Perc', 'thumbCard', 'cPointer', 'inactive'];
 const btnBack = document.getElementById('btnBack');
 const btnNext = document.getElementById('btnNext');
 
@@ -38,8 +39,8 @@ const images = [
     new Image('./assets/img/04.webp', 'Stray', 'Lost, injured and alone, a stray cat must untangle an ancient mystery to escape a long-forgotten city'),
     new Image('./assets/img/05.webp', "Marvel's Avengers", 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.'),
 ];
-console.log("Array Created with images:", images);
 
+console.log("Array Created with images:", images);
 
 /******************   INIT    ******************/
 debugger;
@@ -49,15 +50,24 @@ images.forEach((element, i, array) => {
 
     // Create Slider Images
     const slideCreated = createElement("img", "slide", "", `img-${i}`, `${element['image']}`, "slider-img");
-    i = i != 0 ? slideCreated.classList.add('dNone') : null;
+    i != 0 ? slideCreated.classList.add('dNone') : null;
     sliderElement.appendChild(slideCreated);
 
     // Create Thumbnails Images
-    const thumbCreated = createElement("div", "thumbCard", "", `imgThumb-${i}`, `${element['image']}`, "slider-img");
+    const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "slider-img");
     thumbCreated.style.backgroundImage = `url("${element['image']}")`;  
     thumbCreated.style.height = `calc( 100% / ${images.length} * 3)`;
+    if (i === 0) {
+
+        // If first thumb image
+        thumbCreated.classList.replace('inactive', 'active');
+        thumbCreated.style.marginTop = "-26px";
+    }
+    i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null; // If last thumb image
     thumbBarElement.appendChild(thumbCreated);
 
 });
+
+
 
 /******************  EVENTS   ******************/
