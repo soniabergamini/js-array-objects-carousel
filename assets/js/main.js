@@ -16,7 +16,7 @@ const doSomethingFunc = (what, selector, key, value) => document[what](selector)
 // Unfixed Bug: with style.something, classList.add, className and other, func doesn't work, even changing the arguments/function syntax.
 
 /****************** VARIABLES ******************/
-// DOM's Variables 
+// Global DOM's Variables 
 const sliderElement = document.getElementById('slider');
 const thumbBarElement = document.getElementById('thumbBar');
 const slide = document.getElementsByClassName('slide');
@@ -25,7 +25,10 @@ const thumbClasses = ['w100Perc', 'thumbCard', 'cPointer', 'inactive'];
 const btnBack = document.getElementById('btnBack');
 const btnNext = document.getElementById('btnNext');
 
-// Array Object 
+// Global JS Variables
+let currentSlide = 0;
+
+// Global Array Object 
 // (Difference from the exercise instructions: there are 10 items instead of 5)
 const images = [
     new Image('./assets/img/01.webp', 'Marvel\'s Spiderman Miles Morale', 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.'),
@@ -54,20 +57,34 @@ images.forEach((element, i, array) => {
     sliderElement.appendChild(slideCreated);
 
     // Create Thumbnails Images
-    const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "slider-img");
+    const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "thumb-img");
     thumbCreated.style.backgroundImage = `url("${element['image']}")`;  
     thumbCreated.style.height = `calc( 100% / ${images.length} * 3)`;
+    thumbBarElement.appendChild(thumbCreated);
+    // If first thumb image
     if (i === 0) {
-
-        // If first thumb image
         thumbCreated.classList.replace('inactive', 'active');
         thumbCreated.style.marginTop = "-26px";
     }
-    i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null; // If last thumb image
-    thumbBarElement.appendChild(thumbCreated);
+    // If last thumb image      
+    i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;
+
+    // Click on thumbnails image 
+    thumbCreated.addEventListener('click', function () {
+
+        // Update thumbnails
+        document.querySelector(".active").classList.replace('active', 'inactive');
+        this.classList.replace('inactive', 'active');
+
+        // Update slides
+        document.querySelector('img[class="slide"]').classList.add('dNone');
+        document.getElementById(`img-${i}`).classList.remove('dNone');
+
+        // Update current slide
+        currentSlide = i;
+
+    })
 
 });
-
-
 
 /******************  EVENTS   ******************/
