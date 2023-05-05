@@ -77,7 +77,7 @@ main {
     object-fit: cover;
 }
 
-#imagesBar {
+#thumbBar {
     height: 70vh;
     width: 30vh;
     border-left: transparent;
@@ -85,8 +85,15 @@ main {
     border-radius: 0 8px 8px 0;
 }
 
-#imagesBar > div:hover {
+#thumbBar > div:hover {
     opacity: 1;
+}
+
+.thumbCard {
+    width: 100%;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
 }
 
 main button {
