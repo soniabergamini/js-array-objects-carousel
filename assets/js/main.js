@@ -20,8 +20,8 @@ const doSomethingFunc = (what, selector, key, value) => document[what](selector)
 const sliderElement = document.getElementById('slider');
 const thumbBarElement = document.getElementById('thumbBar');
 const slide = document.getElementsByClassName('slide');
-const thumb = document.getElementsByClassName('thumbCard');
-const thumbClasses = ['w100Perc', 'thumbCard', 'cPointer', 'inactive'];
+const thumb = document.getElementsByClassName('thumb');
+const thumbClasses = ['w100Perc', 'thumb', 'cPointer', 'inactive'];
 const btnBack = document.getElementById('btnBack');
 const btnNext = document.getElementById('btnNext');
 
@@ -88,3 +88,54 @@ images.forEach((element, i, array) => {
 });
 
 /******************  EVENTS   ******************/
+
+// Click on Next button
+btnNext.addEventListener("click", function () {
+
+    // Image scrolling
+    for (let i = 0; i < images.length; i++) {
+
+        if (i === currentSlide + 1) {
+            slide[i].classList.remove('dNone');
+            thumb[i].classList.replace('inactive', 'active');
+        } else {
+            slide[i].classList.add('dNone');
+            thumb[i].classList.replace('active', 'inactive');
+        }
+    }
+
+    // Update current slide, create Loop
+    if (currentSlide === images.length - 1) {
+        document.getElementById("img-0").classList.remove('dNone');
+        document.getElementById('imgThumb-0').classList.replace('inactive', 'active');
+        currentSlide = 0;
+    } else {
+        currentSlide++;
+    }
+    
+});
+
+// Click on Back button
+btnBack.addEventListener("click", function () {
+
+    // Image scrolling
+    for (let i = 0; i < images.length; i++) {
+
+        if (i === currentSlide - 1) {
+            slide[i].classList.remove('dNone');
+            thumb[i].classList.replace('inactive', 'active');
+        } else {
+            slide[i].classList.add('dNone');
+            thumb[i].classList.replace('active', 'inactive');
+        }
+    }
+
+    // Update current slide, create Loop
+    if (currentSlide === 0) {
+        document.getElementById(`img-${images.length - 1}`).classList.remove('dNone');
+        document.getElementById(`imgThumb-${images.length - 1}`).classList.replace('inactive', 'active');
+        currentSlide = images.length - 1;
+    } else {
+        currentSlide--;
+    }
+});
