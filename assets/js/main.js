@@ -10,9 +10,10 @@ const createElement = (tag, classes, content, id, src, alt) => {
     return element;
 };
 
-const fillText = (index) => {
+const fillSlider = (index) => {
     sliderTitle.innerText = images[index].title
     sliderText.innerText = images[index].text 
+    sliderImg.src = images[index].image
 };
 
 // Execute any method of any object 
@@ -24,7 +25,7 @@ const doSomethingFunc = (what, selector, key, value) => document[what](selector)
 // Global DOM's Variables 
 const sliderElement = document.getElementById('slider');
 const thumbBarElement = document.getElementById('thumbBar');
-const slide = document.getElementsByClassName('slide');
+// const slide = document.getElementsByClassName('slide');
 const thumb = document.getElementsByClassName('thumb');
 const thumbClasses = ['w100Perc', 'thumb', 'cPointer', 'inactive'];
 const sliderTitle = document.querySelector("#slider h3");
@@ -55,13 +56,13 @@ console.log("Array Created with images:", images);
 /******************   INIT    ******************/
 debugger;
 
+// Create Slider Images
+const sliderImg = createElement("img", "slide", "", "undefined", `${images[0]['image']}`, "slider-img");
+sliderElement.appendChild(sliderImg);
+fillSlider(currentSlide);
+
 // Create and add images to the carousel on page
 images.forEach((element, i, array) => {
-
-    // Create Slider Images
-    const slideCreated = createElement("img", "slide", "", `img-${i}`, `${element['image']}`, "slider-img");
-    i != 0 ? slideCreated.classList.add('dNone') : null;
-    sliderElement.appendChild(slideCreated);
 
     // Create Thumbnails Images
     const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "thumb-img");
@@ -76,8 +77,6 @@ images.forEach((element, i, array) => {
     // If last thumb image      
     i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;
 
-    fillText(currentSlide);
-
     // Click on thumbnails image 
     thumbCreated.addEventListener('click', function () {
 
@@ -85,16 +84,10 @@ images.forEach((element, i, array) => {
         document.querySelector(".active").classList.replace('active', 'inactive');
         this.classList.replace('inactive', 'active');
 
-        // Update slides
-        document.querySelector('img[class="slide"]').classList.add('dNone');
-        document.getElementById(`img-${i}`).classList.remove('dNone');
-
         // Update current slide
         currentSlide = i;
-        fillText(currentSlide);
-
+        fillSlider(currentSlide);
     })
-
 });
 
 /******************  EVENTS   ******************/
@@ -106,24 +99,21 @@ btnNext.addEventListener("click", function () {
     for (let i = 0; i < images.length; i++) {
 
         if (i === currentSlide + 1) {
-            fillText(i);
-            slide[i].classList.remove('dNone');
+            fillSlider(i);
             thumb[i].classList.replace('inactive', 'active');
         } else {
-            slide[i].classList.add('dNone');
             thumb[i].classList.replace('active', 'inactive');
         }
     }
 
     // Update current slide, create Loop
     if (currentSlide === images.length - 1) {
-        document.getElementById("img-0").classList.remove('dNone');
         document.getElementById('imgThumb-0').classList.replace('inactive', 'active');
         currentSlide = 0;
-        fillText(currentSlide);
+        fillSlider(currentSlide);
     } else {
         currentSlide++;
-        fillText(currentSlide);
+        fillSlider(currentSlide);
     }  
 });
 
@@ -134,23 +124,20 @@ btnBack.addEventListener("click", function () {
     for (let i = 0; i < images.length; i++) {
 
         if (i === currentSlide - 1) {
-            fillText(i);
-            slide[i].classList.remove('dNone');
+            fillSlider(i);
             thumb[i].classList.replace('inactive', 'active');
         } else {
-            slide[i].classList.add('dNone');
             thumb[i].classList.replace('active', 'inactive');
         }
     }
 
     // Update current slide, create Loop
     if (currentSlide === 0) {
-        document.getElementById(`img-${images.length - 1}`).classList.remove('dNone');
         document.getElementById(`imgThumb-${images.length - 1}`).classList.replace('inactive', 'active');
         currentSlide = images.length - 1;
-        fillText(currentSlide);
+        fillSlider(currentSlide);
     } else {
         currentSlide--;
-        fillText(currentSlide);
+        fillSlider(currentSlide);
     }
 });
