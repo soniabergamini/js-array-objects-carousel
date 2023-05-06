@@ -10,10 +10,20 @@ const createElement = (tag, classes, content, id, src, alt) => {
     return element;
 };
 
+// Update slider image and text
 const fillSlider = (index) => {
     sliderTitle.innerText = images[index].title
     sliderText.innerText = images[index].text 
     sliderImg.src = images[index].image
+};
+
+// Update thumbnails class active/inactive
+const replaceClass = (index, status) => {
+    if (status === "active") {
+        thumb[index].classList.replace('active', 'inactive');
+    } else {
+        thumb[index].classList.replace('inactive', 'active');
+    }
 };
 
 // Execute any method of any object 
@@ -25,7 +35,6 @@ const doSomethingFunc = (what, selector, key, value) => document[what](selector)
 // Global DOM's Variables 
 const sliderElement = document.getElementById('slider');
 const thumbBarElement = document.getElementById('thumbBar');
-// const slide = document.getElementsByClassName('slide');
 const thumb = document.getElementsByClassName('thumb');
 const thumbClasses = ['w100Perc', 'thumb', 'cPointer', 'inactive'];
 const sliderTitle = document.querySelector("#slider h3");
@@ -51,17 +60,13 @@ const images = [
     new Image('./assets/img/05.webp', "Marvel's Avengers", 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.'),
 ];
 
-console.log("Array Created with images:", images);
-
 /******************   INIT    ******************/
-debugger;
-
-// Create Slider Images
+// Create and add slider image to the carousel on page
 const sliderImg = createElement("img", "slide", "", "undefined", `${images[0]['image']}`, "slider-img");
 sliderElement.appendChild(sliderImg);
 fillSlider(currentSlide);
 
-// Create and add images to the carousel on page
+// Create and add thumnails images to the carousel on page
 images.forEach((element, i, array) => {
 
     // Create Thumbnails Images
@@ -71,7 +76,7 @@ images.forEach((element, i, array) => {
     thumbBarElement.appendChild(thumbCreated);
     // If first thumb image
     if (i === 0) {
-        thumbCreated.classList.replace('inactive', 'active');
+        replaceClass(i, "inactive");
         thumbCreated.style.marginTop = "-26px";
     }
     // If last thumb image      
@@ -82,7 +87,7 @@ images.forEach((element, i, array) => {
 
         // Update thumbnails
         document.querySelector(".active").classList.replace('active', 'inactive');
-        this.classList.replace('inactive', 'active');
+        replaceClass(i, "inactive");
 
         // Update current slide
         currentSlide = i;
@@ -91,24 +96,22 @@ images.forEach((element, i, array) => {
 });
 
 /******************  EVENTS   ******************/
-
 // Click on Next button
 btnNext.addEventListener("click", function () {
 
     // Image scrolling
     for (let i = 0; i < images.length; i++) {
-
         if (i === currentSlide + 1) {
             fillSlider(i);
-            thumb[i].classList.replace('inactive', 'active');
+            replaceClass(i, "inactive");
         } else {
-            thumb[i].classList.replace('active', 'inactive');
+            replaceClass(i, "active");
         }
     }
 
     // Update current slide, create Loop
     if (currentSlide === images.length - 1) {
-        document.getElementById('imgThumb-0').classList.replace('inactive', 'active');
+        replaceClass(0, "inactive");
         currentSlide = 0;
         fillSlider(currentSlide);
     } else {
@@ -122,18 +125,17 @@ btnBack.addEventListener("click", function () {
 
     // Image scrolling
     for (let i = 0; i < images.length; i++) {
-
         if (i === currentSlide - 1) {
             fillSlider(i);
-            thumb[i].classList.replace('inactive', 'active');
+            replaceClass(i, "inactive");
         } else {
-            thumb[i].classList.replace('active', 'inactive');
+            replaceClass(i, "active");
         }
     }
 
     // Update current slide, create Loop
     if (currentSlide === 0) {
-        document.getElementById(`imgThumb-${images.length - 1}`).classList.replace('inactive', 'active');
+        replaceClass(`${images.length - 1}`, "inactive");
         currentSlide = images.length - 1;
         fillSlider(currentSlide);
     } else {
