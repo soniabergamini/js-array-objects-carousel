@@ -76,6 +76,7 @@ main {
     max-height: 95%;
     min-width: 65%; 
     object-fit: cover;
+    max-width: 97%;
 }
 
 #slider > div {

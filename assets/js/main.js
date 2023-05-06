@@ -12,24 +12,16 @@ const createElement = (tag, classes, content, id, src, alt) => {
 
 // Update slider image and text
 const fillSlider = (index) => {
-    sliderTitle.innerText = images[index].title
-    sliderText.innerText = images[index].text 
-    sliderImg.src = images[index].image
+    sliderTitle.innerText = images[index].title;
+    sliderText.innerText = images[index].text;
+    sliderImg.src = images[index].image;
 };
 
-// Update thumbnails class active/inactive
-const replaceClass = (index, status) => {
-    if (status === "active") {
-        thumb[index].classList.replace('active', 'inactive');
-    } else {
-        thumb[index].classList.replace('inactive', 'active');
-    }
+// Update slider image and text
+const updateThumb = (index) => {
+    document.querySelector(".active").classList.replace('active', 'inactive');
+    thumb[index].classList.replace('inactive', 'active');
 };
-
-// Execute any method of any object 
-const doSomethingFunc = (what, selector, key, value) => document[what](selector)[key] = value;
-//Example to use it correctly: doSomethingFunc("querySelector", "h1", "innerHTML", "HELLO WORLD!");
-// Unfixed Bug: with style.something, classList.add, className and other, func doesn't work, even changing the arguments/function syntax.
 
 /****************** VARIABLES ******************/
 // Global DOM's Variables 
@@ -69,77 +61,56 @@ fillSlider(currentSlide);
 // Create and add thumnails images to the carousel on page
 images.forEach((element, i, array) => {
 
-    // Create Thumbnails Images
+    // Create thumbnails images
     const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "thumb-img");
     thumbCreated.style.backgroundImage = `url("${element['image']}")`;  
     thumbCreated.style.height = `calc( 100% / ${images.length} * 3)`;
     thumbBarElement.appendChild(thumbCreated);
-    // If first thumb image
+
+    // First and last thumb
     if (i === 0) {
-        replaceClass(i, "inactive");
+        thumb[i].classList.replace('inactive', 'active');
         thumbCreated.style.marginTop = "-26px";
-    }
-    // If last thumb image      
+    }     
     i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;
 
-    // Click on thumbnails image 
+    // Click on thumbnails image: update thumb and slide
     thumbCreated.addEventListener('click', function () {
-
-        // Update thumbnails
-        document.querySelector(".active").classList.replace('active', 'inactive');
-        replaceClass(i, "inactive");
-
-        // Update current slide
         currentSlide = i;
         fillSlider(currentSlide);
+        updateThumb(i);
     })
 });
 
 /******************  EVENTS   ******************/
-// Click on Next button
+// Click on Next button: image scrolling, create Loop
 btnNext.addEventListener("click", function () {
-
-    // Image scrolling
-    for (let i = 0; i < images.length; i++) {
-        if (i === currentSlide + 1) {
-            fillSlider(i);
-            replaceClass(i, "inactive");
-        } else {
-            replaceClass(i, "active");
-        }
-    }
-
-    // Update current slide, create Loop
     if (currentSlide === images.length - 1) {
-        replaceClass(0, "inactive");
         currentSlide = 0;
         fillSlider(currentSlide);
+        updateThumb(currentSlide);
     } else {
         currentSlide++;
         fillSlider(currentSlide);
+        updateThumb(currentSlide);
     }  
 });
 
-// Click on Back button
+// Click on Back button: image scrolling, create Loop
 btnBack.addEventListener("click", function () {
-
-    // Image scrolling
-    for (let i = 0; i < images.length; i++) {
-        if (i === currentSlide - 1) {
-            fillSlider(i);
-            replaceClass(i, "inactive");
-        } else {
-            replaceClass(i, "active");
-        }
-    }
-
-    // Update current slide, create Loop
     if (currentSlide === 0) {
-        replaceClass(`${images.length - 1}`, "inactive");
         currentSlide = images.length - 1;
         fillSlider(currentSlide);
+        updateThumb(currentSlide);
     } else {
         currentSlide--;
         fillSlider(currentSlide);
+        updateThumb(currentSlide);
     }
 });
+
+/******************  SOMETHING TO CHECK   ******************/
+/* FUNCTION: Execute any method of any object 
+const doSomethingFunc = (what, selector, key, value) => document[what](selector)[key] = value;
+Example to use it correctly: doSomethingFunc("querySelector", "h1", "innerHTML", "HELLO WORLD!");
+Unfixed Bug: with style.something, classList.add, className and other, func doesn't work, even changing the arguments/function syntax. */
