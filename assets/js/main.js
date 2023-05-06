@@ -17,7 +17,7 @@ const fillSlider = (index) => {
     sliderImg.src = images[index].image;
 };
 
-// Update slider image and text
+// Update thumbnails class active/inactive
 const updateThumb = (index) => {
     document.querySelector(".active").classList.replace('active', 'inactive');
     thumb[index].classList.replace('inactive', 'active');
