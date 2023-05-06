@@ -22,6 +22,15 @@ const updateImages = (index, updateThumb) => {
     }
 };
 
+// Images Autoplay: automatic image scrolling every 3 seconds 
+const imgAutoPlay = () => { 
+    setInterval(function(){
+        currentSlide++;
+        currentSlide === images.length ? currentSlide = 0 : null;
+        updateImages(currentSlide, true);
+    }, 1 * 3000);
+};
+
 /****************** VARIABLES ******************/
 // Global DOM's Variables 
 const sliderElement = document.getElementById('slider');
@@ -76,6 +85,9 @@ images.forEach((element, i) => {
         updateImages(currentSlide, true);
     })
 });
+
+// Autoplay: start automatic image scrolling after 5 seconds from init
+setTimeout(imgAutoPlay, 1 * 5000); 
 
 /******************  EVENTS   ******************/
 // Click on Next button: image scrolling, create Loop
