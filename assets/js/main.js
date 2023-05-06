@@ -10,6 +10,11 @@ const createElement = (tag, classes, content, id, src, alt) => {
     return element;
 };
 
+const fillText = (index) => {
+    sliderTitle.innerText = images[index].title
+    sliderText.innerText = images[index].text 
+};
+
 // Execute any method of any object 
 const doSomethingFunc = (what, selector, key, value) => document[what](selector)[key] = value;
 //Example to use it correctly: doSomethingFunc("querySelector", "h1", "innerHTML", "HELLO WORLD!");
@@ -22,6 +27,8 @@ const thumbBarElement = document.getElementById('thumbBar');
 const slide = document.getElementsByClassName('slide');
 const thumb = document.getElementsByClassName('thumb');
 const thumbClasses = ['w100Perc', 'thumb', 'cPointer', 'inactive'];
+const sliderTitle = document.querySelector("#slider h3");
+const sliderText = document.querySelector("#slider p");
 const btnBack = document.getElementById('btnBack');
 const btnNext = document.getElementById('btnNext');
 
@@ -69,6 +76,8 @@ images.forEach((element, i, array) => {
     // If last thumb image      
     i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;
 
+    fillText(currentSlide);
+
     // Click on thumbnails image 
     thumbCreated.addEventListener('click', function () {
 
@@ -82,6 +91,7 @@ images.forEach((element, i, array) => {
 
         // Update current slide
         currentSlide = i;
+        fillText(currentSlide);
 
     })
 
@@ -96,6 +106,7 @@ btnNext.addEventListener("click", function () {
     for (let i = 0; i < images.length; i++) {
 
         if (i === currentSlide + 1) {
+            fillText(i);
             slide[i].classList.remove('dNone');
             thumb[i].classList.replace('inactive', 'active');
         } else {
@@ -109,10 +120,11 @@ btnNext.addEventListener("click", function () {
         document.getElementById("img-0").classList.remove('dNone');
         document.getElementById('imgThumb-0').classList.replace('inactive', 'active');
         currentSlide = 0;
+        fillText(currentSlide);
     } else {
         currentSlide++;
-    }
-    
+        fillText(currentSlide);
+    }  
 });
 
 // Click on Back button
@@ -122,6 +134,7 @@ btnBack.addEventListener("click", function () {
     for (let i = 0; i < images.length; i++) {
 
         if (i === currentSlide - 1) {
+            fillText(i);
             slide[i].classList.remove('dNone');
             thumb[i].classList.replace('inactive', 'active');
         } else {
@@ -135,7 +148,9 @@ btnBack.addEventListener("click", function () {
         document.getElementById(`img-${images.length - 1}`).classList.remove('dNone');
         document.getElementById(`imgThumb-${images.length - 1}`).classList.replace('inactive', 'active');
         currentSlide = images.length - 1;
+        fillText(currentSlide);
     } else {
         currentSlide--;
+        fillText(currentSlide);
     }
 });

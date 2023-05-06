@@ -69,12 +69,29 @@ main {
     background-color: rgba(0, 0, 0, 0.7);
     border-right: transparent;
     border-radius: 8px 0 0 8px;
+    text-align: left;
 }
 
 .slide {
     max-height: 95%;
     min-width: 65%; 
     object-fit: cover;
+}
+
+#slider > div {
+    bottom: 5%;
+    padding: 1% 15%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#slider h3 {
+    color: var(--red);
+}
+
+#slider p {
+    font-size: .7rem;
+    margin-top: .8rem;
+    font-family: 'Poiret One', cursive;
 }
 
 #thumbBar {
