@@ -10,17 +10,16 @@ const createElement = (tag, classes, content, id, src, alt) => {
     return element;
 };
 
-// Update slider image and text
-const fillSlider = (index) => {
+// Update slider and thumbnails
+const updateImages = (index, updateThumb) => {
     sliderTitle.innerText = images[index].title;
     sliderText.innerText = images[index].text;
     sliderImg.src = images[index].image;
-};
 
-// Update thumbnails class active/inactive
-const updateThumb = (index) => {
-    document.querySelector(".active").classList.replace('active', 'inactive');
-    thumb[index].classList.replace('inactive', 'active');
+    if (updateThumb === true) {
+        document.querySelector(".active").classList.replace('active', 'inactive');
+        thumb[index].classList.replace('inactive', 'active');
+    }
 };
 
 /****************** VARIABLES ******************/
@@ -56,10 +55,10 @@ const images = [
 // Create and add slider image to the carousel on page
 const sliderImg = createElement("img", "slide", "", "undefined", `${images[0]['image']}`, "slider-img");
 sliderElement.appendChild(sliderImg);
-fillSlider(currentSlide);
+updateImages(currentSlide);
 
 // Create and add thumnails images to the carousel on page
-images.forEach((element, i, array) => {
+images.forEach((element, i) => {
 
     // Create thumbnails images
     const thumbCreated = createElement("div", `${thumbClasses.join(" ")}`, "", `imgThumb-${i}`, `${element['image']}`, "thumb-img");
@@ -68,17 +67,13 @@ images.forEach((element, i, array) => {
     thumbBarElement.appendChild(thumbCreated);
 
     // First and last thumb
-    if (i === 0) {
-        thumb[i].classList.replace('inactive', 'active');
-        thumbCreated.style.marginTop = "-26px";
-    }     
-    i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;
+    i === 0 ? thumb[i].classList.replace('inactive', 'active') : null // if first thumb
+    i === images.length - 1 ? thumbCreated.style.marginBottom = "26px" : null;  // if last thumb
 
     // Click on thumbnails image: update thumb and slide
     thumbCreated.addEventListener('click', function () {
         currentSlide = i;
-        fillSlider(currentSlide);
-        updateThumb(i);
+        updateImages(currentSlide, true);
     })
 });
 
@@ -87,12 +82,10 @@ images.forEach((element, i, array) => {
 btnNext.addEventListener("click", function () {
     if (currentSlide === images.length - 1) {
         currentSlide = 0;
-        fillSlider(currentSlide);
-        updateThumb(currentSlide);
+        updateImages(currentSlide, true);
     } else {
         currentSlide++;
-        fillSlider(currentSlide);
-        updateThumb(currentSlide);
+        updateImages(currentSlide, true);
     }  
 });
 
@@ -100,12 +93,10 @@ btnNext.addEventListener("click", function () {
 btnBack.addEventListener("click", function () {
     if (currentSlide === 0) {
         currentSlide = images.length - 1;
-        fillSlider(currentSlide);
-        updateThumb(currentSlide);
+        updateImages(currentSlide, true);
     } else {
         currentSlide--;
-        fillSlider(currentSlide);
-        updateThumb(currentSlide);
+        updateImages(currentSlide, true);
     }
 });
 
